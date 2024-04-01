@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 
 struct Node_
 {
@@ -29,25 +31,49 @@ void Print(Node** head){
     printf("\n");
 }
 
-void Reverse(Node**){
-    
+void Reverse(Node** head){
+    if (*head == NULL) return;
+    Node* prev = NULL; 
+    Node* curr = *head;
+    Node* next = curr->ptr;
+
+    while(1){
+        curr->ptr = prev;
+        if (next == NULL) break;
+        prev = curr;
+        curr = next;
+        next = next->ptr;
+    }
+    *head = curr;
 }
 
 void main(){
      
     int data,n; 
+    char answer[5];
     Node* head=NULL; 
     
-    printf("몇 개의 데이터를 입력할건가요? : ");
+    printf("How much data would you like to add? : ");
     scanf("%d", &n);
     
     for(int i=0; i<n; i++){
-        printf("데이터를 입력하세요. : ");
+        printf("Enter your data. : ");
         scanf("%d", &data);
 
         Insert(&head, data);
         Print(&head);
 
     }
+    
+    printf("Do you want to reverse your linked_list?(Y/N) : ");
+    scanf("%s", answer);
+    char yes[5] = "Y";
+    if (strcmp(answer, yes) == 0){
+        Reverse(&head);
+        printf("Your reversed list : ");
+        Print(&head);
+        
+    }
+    printf("Finish.");
 
 }
